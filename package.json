@@ -1,0 +1,27 @@
+{
+  "name": "cross-platform-guidebook",
+  "version": "1.0.0",
+  "description": "A technical mannual about cross platform development knowledge",
+  "main": "index.js",
+  "scripts": {
+    "start": "yarn run dev",
+    "dev": "yarn run dumi dev --port=8100",
+    "lint:md": "lint-md *.md",
+    "lint:fix": "lint-md *.md --fix",
+    "build": "yarn run dumi build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsejx/cross-platform-guidebook.git"
+  },
+  "author": "tsejx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tsejx/cross-platform-guidebook/issues"
+  },
+  "homepage": "https://github.com/tsejx/cross-platform-guidebook#readme",
+  "devDependencies": {
+    "dumi": "^1.0.34",
+    "lint-md": "^0.2.0"
+  }
+}
