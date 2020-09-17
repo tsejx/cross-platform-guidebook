@@ -1,4 +1,22 @@
-# 深度链接
+---
+nav:
+  title: Hybrid
+  order: 1
+group:
+  title: Hybrid
+  order: 1
+title: 唤端技术方案
+order: 4
+---
+
+# 唤端技术方案
+
+唤端技术：
+
+- intent
+- localserver
+- scheme：deep link / applink / Universal Link
+- smart app banner
 
 ## 唤端媒介
 
@@ -39,7 +57,7 @@ scheme://[path][?query]
 应用标识       功能需要的参数
 ```
 
-### Intent
+### Intent（Android）
 
 安卓的原生谷歌浏览器自从 Chrome25 版本开始对于唤端功能做了一些变化，URL Scheme 无法再启动 Android 应用。 例如，通过 `iframe` 指向 `weixin://`，即使用户安装了微信也无法打开。所以，APP 需要实现谷歌官方提供的 `intent:` 语法，或者实现让用户通过自定义手势来打开 APP，当然这就是题外话了。
 
@@ -86,9 +104,9 @@ intent:
 </a>
 ```
 
-### Universal Link
+### Universal Link（iOS）
 
-Universal Link 是苹果在 WWDC2015 上为 iOS9 引入的新功能，通过传统的 HTTP 链接即可打开 APP。如果用户未安装 APP，则会跳转到该链接所对应的页面。
+[Universal Link](../native/universal-link.md) 是苹果在 WWDC2015 上为 iOS9 引入的新功能，通过传统的 HTTP 链接即可打开 APP。如果用户未安装 APP，则会跳转到该链接所对应的页面。
 
 传统的 Scheme 链接有以下几个痛点：
 
@@ -96,7 +114,7 @@ Universal Link 是苹果在 WWDC2015 上为 iOS9 引入的新功能，通过传�
 - 传统 Scheme 跳转无法得知唤端是否成功，Universal Link 唤端失败可以直接打开此链接对应的页面
 - Scheme 在微信、微博、QQ 浏览器、手百中都已经被禁止使用，使用 Universal Link 可以避开它们的屏蔽（ 截止到 18 年 8 月 21 日，微信和 QQ 浏览器已经禁止了 Universal Link，其他主流 APP 未发现有禁止 ）
 
-#### 如何让 APP 支持 Universal Link
+> 如何让 APP 支持 Universal Link
 
 有大量的文章会详细的告诉我们如何配置，你也可以去看[官方文档](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html#//apple_ref/doc/uid/TP40016308-CH12-SW2)，我这里简单地描述实现须知。
 
@@ -120,7 +138,7 @@ IOS 那边有这样一个判断，如果你要打开的 Universal Link 和 当�
 
 Universal Link 本质上是个空页面，如果未安装 APP，Universal Link 被当做普通的页面链接，自然会跳到 404 页面，所以我们需要将它绑定到我们的中转页或者下载页。
 
-## 如何调用三种唤端媒介
+## 触发方式
 
 通过前面的介绍，我们可以发现，无论是 URL Scheme 还是 Intent 或者 Universal Link ，他们都算是 URL ，只是 URL Scheme 和 Intent 算是特殊的 URL。所以我们可以拿使用 URL 的方法来使用它们。
 
@@ -146,7 +164,7 @@ URL Scheme 在 iOS 9+ 上诸如 safari、UC、QQ 浏览器中，`iframe` 均无�
 
 当然，如果我们的 APP 支持 Universal Link，iOS 9+ 就用不到 URL Scheme 了。而 Universal Link 在使用过程中，我发现在 QQ 中，无论是 `iframe` 导航 还是 `a` 标签打开 又或者 `window.location` 都无法成功唤端，一开始我以为是 QQ 和微信一样禁止了 Universal Link 唤端的功能，其实不然，百般试验下，通过 `top.location` 唤端成功了。
 
-## 判断唤端是否成功
+## 唤端结果检测
 
 如果唤端失败（APP 未安装），我们总是要做一些处理的，可以是跳转下载页，可以是 iOS 下跳转 App Store。但是 JS 并不能提供给我们获取 APP 唤起状态的能力，Android Intent 以及 Universal Link 倒是不用担心，它们俩的自身机制允许它们唤端失败后直接导航至相应的页面，但是 URL Scheme 并不具备这样的能力，所以我们只能通过一些很 Hack 的方式来实现 APP 唤起检测功能。
 
@@ -183,3 +201,4 @@ APP 如果被唤起的话，页面就会进入后台运行，会触发页面的 
 **参考资料：**
 
 - [H5 唤起 APP 指南](https://juejin.im/post/6844903664155525127)
+- [唤起 APP 在转转的实践](https://mp.weixin.qq.com/s/TdaIZbHR0-7NBK1LFR4nRQ)

@@ -6,12 +6,13 @@ group:
   title: Hybrid
   order: 1
 title: 跨语言通信方案
-order: 2
+order: 3
 ---
 
 # 跨语言通信方案
 
-Hybrid App 的本质，其实是在原生的 App 中，使用 WebView 作为容器直接承载 Web 页面。因此，最核心的点就是 Native 端 与 H5 端 之间的双向通讯层，其实这里也可以理解为我们需要一套 **跨语言通讯方案**，来完成 Native（Java/Objective-c/...） 与 JavaScript 的通讯。这个方案就是我们所说的 JSBridge，而实现的关键便是作为容器的 WebView，一切的原理都是基于 WebView 的机制。
+Hybrid App 的本质，其实是在原生的 App 中，使用 WebView 作为容器直接承载 Web 页面。因此，最核心的点就是 Native 端 与 H5 端 之间的双向通讯层，其实这里也可以理解为我们需要一套 **跨语言通讯方案**，来完成 Native（Java
+、Objective-c 等等） 与 JavaScript 的通讯。这个方案就是我们所说的 [JSBridge](./jsbridge)，而实现的关键便是作为容器的 WebView，一切的原理都是基于 WebView 的机制。
 
 Web 与 原生 APP 的交互，本质上来说，就是两种调用：
 
@@ -55,7 +56,6 @@ webview.evaluateJavascript('window.JSBridge.double(10)', new ValueCallback<Strin
 1. `loadUrl()` 回刷新页面，`evaluateJavascript()` 则不会使页面刷新，所以 `evaluateJavascript()` 的效率更高
 2. `loadUrl()` 得不到 JS 的返回值，`evaluateJavascript()` 可以获取返回值
 3. `evaluateJavascript()` 在 Android 4.4 之后才可以使用
-
 
 **iOS**
 
@@ -226,8 +226,8 @@ iframe.style.display = 'none';
 iframe.src = url;
 document.body.appendChild(iframe);
 setTimeout(function() {
-  iframe.remove()
-}, 300)
+  iframe.remove();
+}, 300);
 ```
 
 **Android**
@@ -286,7 +286,7 @@ webview.setWebViewClient(new WebViewClient() {
 
 ```jsx | inline
 import React from 'react';
-import img from '../assets/hybird/native-and-h5.png';
+import img from '../../assets/hybird/native-and-h5.png';
 
 export default () => <img alt="Natvie 和 H5 通讯架构图" src={img} width="520" />;
 ```

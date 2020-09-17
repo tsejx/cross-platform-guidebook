@@ -5,11 +5,11 @@ nav:
 group:
   title: Hybrid
   order: 1
-title: Hybrid
+title: 混合应用开发
 order: 1
 ---
 
-# Hybrid
+# 混合应用开发
 
 ## 现有混合方案
 

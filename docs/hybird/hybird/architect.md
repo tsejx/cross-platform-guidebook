@@ -1,3 +1,14 @@
+---
+nav:
+  title: Hybrid
+  order: 1
+group:
+  title: Hybrid
+  order: 1
+title: 架构设计
+order: 10
+---
+
 # 架构设计
 
 Hybird 系统的架构设计
