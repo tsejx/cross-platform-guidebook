@@ -11,7 +11,9 @@ order: 1
 
 # Electron
 
-Electron 是由 Github 开发，用 HTML，CSS 和 JavaScript 来构建跨平台桌面应用程序的一个开源库。 Electron 通过将 Chromium 和 Node.js 合并到同一个运行时环境中，并将其打包为 Mac，Windows 和 Linux 系统下的应用来实现这一目的。
+Electron 是由 Github 开发，用 HTML，CSS 和 JavaScript 来构建跨平台桌面应用程序的一个开源库。
+
+Electron 通过将 Chromium 和 Node.js 合并到同一个运行时环境中，并将其打包为 Mac、Windows 和 Linux 系统下的应用来实现这一目的。
 
 ```jsx | inline
 import React from 'react';
@@ -20,7 +22,22 @@ import img from '../assets/electron/architect.png';
 export default () => <img alt="Electron" src={img} width="64%" height="64%" />;
 ```
 
-Chromium 是 Google 为发展 Chrome 浏览器而启动的开源项目，Chromium相当于 Chrome 的工程版或称实验版（尽管 Chrome 自身也有 `β` 版阶段），新功能会率先在 Chromium 上实现，待验证后才会应用在Chrome 上，故 Chrome 的功能会相对落后但较稳定。
+Chromium 是 Google 为发展 Chrome 浏览器而启动的开源项目，Chromium 相当于 Chrome 的工程版或称实验版（尽管 Chrome 自身也有 `β` 版阶段），新功能会率先在 Chromium 上实现，待验证后才会应用在 Chrome 上，故 Chrome 的功能会相对落后但较稳定。
+
+能力点：
+
+- Chromium：无需考虑浏览器兼容性、ES6/7、最新特性
+- Node.js：文件读写、本地命令调用、扩展第三方 C++ 库
+- Native API：系统通知、快捷键、CPU、硬件信息获取、离线在线检测
+
+<br />
+
+```jsx | inline
+import React from 'react';
+import img from '../assets/electron/flow.png';
+
+export default () => <img alt="Electron" src={img} width="64%" height="64%" />;
+```
 
 ## 进程
 
@@ -62,30 +79,30 @@ const { ipcMain } = require('electron');
 ipcMain.on('asynchronous-message', (event, arg) => {
   console.log(arg);
   // 'Ping'
-  event.reply('asynchronous-reply', 'Pong')
-})
+  event.reply('asynchronous-reply', 'Pong');
+});
 
 ipcMain.on('synchronous-message', (event, arg) => {
   console.log(arg);
   // 'Ping'
-  event.returnValue = 'Pong'
-})
+  event.returnValue = 'Pong';
+});
 ```
 
 在渲染进程（网页）中：
 
 ```js
-const { ipcRenderer } = require('electron')
+const { ipcRenderer } = require('electron');
 
-console.log(ipcRenderer.sendSync('synchronous-message', 'ping'))
+console.log(ipcRenderer.sendSync('synchronous-message', 'ping'));
 // 'Pong'
 
 ipcRenderer.on('asynchronous-reply', (event, arg) => {
   console.log(arg);
   // 'Pong'
-})
+});
 
-ipcRenderer.send('asynchronous-message', 'Ping')
+ipcRenderer.send('asynchronous-message', 'Ping');
 ```
 
 #### remote 模块
@@ -95,11 +112,11 @@ ipcRenderer.send('asynchronous-message', 'Ping')
 例如：从渲染进程创建浏览器窗口
 
 ```js
-const { BrowserWindow } = require('electron').remote
+const { BrowserWindow } = require('electron').remote;
 
-let win = new BrowserWindow({ width: 800, height: 600 })
+let win = new BrowserWindow({ width: 800, height: 600 });
 
-win.loadUrl('https://www.mrsingsing.com/')
+win.loadUrl('https://www.mrsingsing.com/');
 ```
 
 ⚠️ 注意： 反过来（如果需要从主进程访问渲染进程），可以使用 [webContents.executeJavascript](https://electronjs.org/docs/api/web-contents#contentsexecutejavascriptcode-usergesture-callback)
