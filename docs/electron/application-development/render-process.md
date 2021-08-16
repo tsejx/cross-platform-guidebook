@@ -3,10 +3,10 @@ nav:
   title: Electron
   order: 5
 group:
-  title: 渲染进程模块
-  order: 3
-title: Renderer Process
-order: 1
+  title: 应用开发
+  order: 1
+title: 渲染进程模块
+order: 2
 ---
 
 # Renderer Process 模块
@@ -115,7 +115,7 @@ crashReporter.start({ submitURL: 'https://your-domain.com/url-to-submit' });
 // In the renderer process.
 const { desktopCapturer } = require('electron');
 
-desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
+desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async (sources) => {
   for (const source of sources) {
     if (source.name === 'Electron') {
       try {
@@ -144,7 +144,7 @@ desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources =
 function handleStream(stream) {
   const video = document.querySelector('video');
   video.srcObject = stream;
-  video.onloadedmetadata = e => video.play();
+  video.onloadedmetadata = (e) => video.play();
 }
 
 function handleError(e) {
@@ -173,7 +173,7 @@ function handleError(e) {
 
 ```js
 // Renderer Process
-ipcRenderer.invoke('some-name', someArgument).then(result => {
+ipcRenderer.invoke('some-name', someArgument).then((result) => {
   // do something
 });
 

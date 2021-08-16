@@ -1,3 +1,14 @@
+---
+nav:
+  title: Electron
+  order: 5
+group:
+  title: 应用开发
+  order: 5
+title: 生命周期
+order: 13
+---
+
 # 生命周期
 
 ## 退出场景

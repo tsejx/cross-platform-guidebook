@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "yarn run dev",
-    "dev": "yarn run dumi dev --port=8100",
+    "dev": "dumi dev --port=8100",
     "lint:md": "lint-md *.md",
     "lint:fix": "lint-md *.md --fix",
-    "build": "yarn run dumi build"
+    "build": "dumi build"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/tsejx/cross-platform-guidebook#readme",
   "devDependencies": {
-    "dumi": "^1.0.34",
+    "dumi": "^1.1.24",
     "lint-md": "^0.2.0"
   }
 }

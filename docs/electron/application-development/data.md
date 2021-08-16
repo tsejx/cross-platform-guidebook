@@ -48,7 +48,7 @@ const tmpdir = require('os').tmpdir();
 
 ### 读写受限访问的 Cookie
 
-在浏览器中读写 Cookie 存在无法读写 HttpOnly 标记的 Cookie 和其他域下的 Cookie 的限制，但是 Electron 提供了专门用于读取 Cookie 的 API：
+在浏览器中读写 Cookie 存在无法读写 HttpOnly 标记的 Cookie 和其他域下的 Cookie 的限制，但是 Electron 提供了专门用于读取 [Cookie](https://www.electronjs.org/docs/api/cookies) 的 API：
 
 ```js
 const { BrowserWindow } = require('electron');

@@ -22,6 +22,21 @@ import img from '../assets/electron/architect.png';
 export default () => <img alt="Electron" src={img} width="64%" height="64%" />;
 ```
 
+```js
+
+  +---------------------+
+  |   Operating System  |
+
+        |
+        V
+        Node.js   <-> Chromium
+                        ^
+                        |
+                        V
+                    UserInsterface
+
+```
+
 Chromium 是 Google 为发展 Chrome 浏览器而启动的开源项目，Chromium 相当于 Chrome 的工程版或称实验版（尽管 Chrome 自身也有 `β` 版阶段），新功能会率先在 Chromium 上实现，待验证后才会应用在 Chrome 上，故 Chrome 的功能会相对落后但较稳定。
 
 能力点：

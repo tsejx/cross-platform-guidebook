@@ -1,3 +1,14 @@
+---
+nav:
+  title: Electron
+  order: 5
+group:
+  title: 拓展资料
+  order: 6
+title: 桌面端技术选型分析
+order: 2
+---
+
 # 桌面端技术选型分析
 
 Node.js 和 Chromiums 整合

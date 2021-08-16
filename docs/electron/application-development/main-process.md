@@ -3,13 +3,29 @@ nav:
   title: Electron
   order: 5
 group:
-  title: 主进程模块
-  order: 2
-title: Main Process
+  title: 应用开发
+  order: 1
+title: 主进程模块
 order: 1
 ---
 
-# Main Process 模块
+# 主进程模块
+
+一个 Electron 应用只有一个主进程，但可以有多个渲染进程。一个 BrowserWindow 实例就代表着一个渲染进程。当 BrowserWindow 示例被销毁后，渲染进程也跟着终结。
+
+主进程负责管理所有的窗口及其对应的渲染进程。每个渲染进程都是独立的，它只关心所运行的 Web 页面。在开启 nodeIntegration 配置后，渲染进程也有能力访问 Node.js 的 API。
+
+在 Electron 中，GUI 相关的模块仅在主进程中可用。如果想在渲染进程中完成创建窗口、创建菜单等操作，可以让渲染进程给主进程发送消息，主进程接收到消息后再完成相应的操作：也可以通过渲染进程的 `remote` 模块来完成相应操作。这两种方法背后实现的机制是一样的。
+
+Electron 框架内置的主要模块归属情况
+
+| 归属情况     | 模块名                         |
+| :----------- | :----------------------------- |
+| 主进程模块   | app、autoUpdate、BrowserView、BrowserWindow、contenttTracing、dialog、globalShortcut、ipcMainMenu、MenuItem、net、netLog、Notification、powerMonitor、powerSaveBlocker、protocol、screen、session、systemPreferences、TouchBar、Tray、webContents |
+| 渲染进程模块 | desktopCapturer、ipcRenderer、remote、webFrame                               |
+| 公用模块     |  clipboard、crashReporter、nativeImage、shell                              |
+
+## MainProcess
 
 - BrowserView - 创建和控制视图
 - BrowserWindow - 创建和控制浏览器窗口
