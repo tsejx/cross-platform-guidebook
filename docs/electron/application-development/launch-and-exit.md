@@ -11,6 +11,13 @@ order: 13
 
 # 生命周期
 
+```jsx | inline
+import React from 'react';
+import img from '../../assets/electron/flow.png';
+
+export default () => <img alt="Electron" src={img} width="64%" height="64%" />;
+```
+
 ## 退出场景
 
 ### 正常退出

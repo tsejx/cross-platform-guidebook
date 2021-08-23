@@ -11,7 +11,7 @@ order: 1
 
 # Electron
 
-Electron 是由 Github 开发，用 HTML，CSS 和 JavaScript 来构建跨平台桌面应用程序的一个开源库。
+[Electron](https://github.com/electron/electron) 是由 Github 开发，用 HTML，CSS 和 JavaScript 来构建跨平台桌面应用程序的一个开源库。
 
 Electron 通过将 Chromium 和 Node.js 合并到同一个运行时环境中，并将其打包为 Mac、Windows 和 Linux 系统下的应用来实现这一目的。
 
@@ -22,22 +22,7 @@ import img from '../assets/electron/architect.png';
 export default () => <img alt="Electron" src={img} width="64%" height="64%" />;
 ```
 
-```js
-
-  +---------------------+
-  |   Operating System  |
-
-        |
-        V
-        Node.js   <-> Chromium
-                        ^
-                        |
-                        V
-                    UserInsterface
-
-```
-
-Chromium 是 Google 为发展 Chrome 浏览器而启动的开源项目，Chromium 相当于 Chrome 的工程版或称实验版（尽管 Chrome 自身也有 `β` 版阶段），新功能会率先在 Chromium 上实现，待验证后才会应用在 Chrome 上，故 Chrome 的功能会相对落后但较稳定。
+[Chromium](https://github.com/chromium/chromium) 是 Google 为发展 Chrome 浏览器而启动的开源项目，Chromium 相当于 Chrome 的工程版或称实验版（尽管 Chrome 自身也有 `β` 版阶段），新功能会率先在 Chromium 上实现，待验证后才会应用在 Chrome 上，故 Chrome 的功能会相对落后但较稳定。
 
 能力点：
 
@@ -47,12 +32,28 @@ Chromium 是 Google 为发展 Chrome 浏览器而启动的开源项目，Chromiu
 
 <br />
 
-```jsx | inline
-import React from 'react';
-import img from '../assets/electron/flow.png';
+## 架构原理
 
-export default () => <img alt="Electron" src={img} width="64%" height="64%" />;
-```
+### Chromium 和 Node.js 整合
+
+> 如何将 `Chromium` 和 `Node.js` 整合
+
+Node.js 事件循环基于 [libuv](https://github.com/libuv/libuv)，但 Chromium 基于 [message_pump](https://chromium.googlesource.com/chromium/chromium/+/refs/heads/main/base/message_pump.h)。
+
+解决这个问题的主要思路有两种：
+
+1. 将 Chromium 集成到 Node.js：用 `libuv` 实现 `message_pump`
+2. 将 Node.js 集成到 Chromium
+
+第一种方案，NW.js 就是这么做的。Electron 前期也是这样尝试的，结果发现在渲染进程里实现比较容易，但是在主进程里却很麻烦，因为各个系统的 GUI 实现都不同，Mac 是 `NSRunLoop`，Linux 是 `glib`，不仅工程量十分浩大，而且一些边界情况处理起来也十分棘手。
+
+后来作者另辟蹊径，再次进行尝试，用一个小间隔的定时器轮询 GUI 事件，发现 GUI 响应的非常慢，CPU 也爆表。
+
+直到后来 `libuv` 引入了 `backend_fd` 的概念，相当于 `libuv` 轮询事件的文件描述符，这样就可以通过轮询 `backend_fd` 来得到 `libuv` 的一个新事件了。也就是第二种思路，将 Node.js 集成到 Chromium。
+
+将 Node.js 集成到 Chromium 中的原理：
+
+Electron 起了一个新的安全线程去轮询 `backend_fd`，当 `Node.js` 有一个新的事件后，通过 `PostTask` 转发到 Chromium 的事件循环中，这样就实现了 Electron 的事件融合。
 
 ## 进程
 
@@ -146,4 +147,6 @@ win.loadUrl('https://www.mrsingsing.com/');
 
 **参考资料：**
 
+- [Electron Internals: Message Loop Integration](https://www.electronjs.org/blog/electron-internals-node-integration)
+- [The Chromium Projects: Multi-process Architecture](http://dev.chromium.org/developers/design-documents/multi-process-architecture)
 - [蘑菇街前端团队：Electron 从零到一](https://juejin.im/post/6844903974894567432)
