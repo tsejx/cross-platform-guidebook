@@ -6,8 +6,8 @@ const config = {
   publicPath: '/cross-platform-guidebook/',
   favicon: './favicon.ico',
   logo: 'http://img.mrsingsing.com/cross-platform-guidebook-favicon.svg',
+  hash: true,
   exportStatic: {},
-  dynamicImport: {},
   navs: [
     null,
     {
