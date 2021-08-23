@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/tsejx/cross-platform-guidebook#readme",
   "devDependencies": {
-    "dumi": "^1.1.24",
+    "dumi": "^1.1.25",
     "lint-md": "^0.2.0"
   }
 }
