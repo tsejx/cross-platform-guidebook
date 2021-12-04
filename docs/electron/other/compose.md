@@ -11,17 +11,22 @@ order: 2
 
 # 桌面端技术选型分析
 
+|            | Electron                               | Native                | QT                      | NW                                 |
+| :--------- | :------------------------------------- | :-------------------- | :---------------------- | :--------------------------------- |
+| 性能       | 1                                      | 3                     | 2                       | 1                                  |
+| 安装包大小 | 1                                      | 3                     | 1                       | 1                                  |
+| 原生体验   | 1                                      | 3                     | 2                       | 1                                  |
+| 跨平台     | 3                                      | x                     | 3                       | 3                                  |
+| 开发效率   | 3                                      | 1                     | 2                       | 3                                  |
+| 人才储备   | 3                                      | 2                     | 2                       | 3                                  |
+| 社区       | 3                                      | 2                     | 1                       | 2                                  |
+| 适用场景   | 跨平台应用<br/>快速交付<br/>前端技术栈 | 专业应用<br/>性能最佳 | 跨平台应用<br/>性能最佳 | 跨平台<br/>快速交付<br/>前端技术栈 |
+
 Node.js 和 Chromiums 整合
 
 - 难点：Node.js 事件循环基于 libuv，但 Chromium 基于 message pump
   - Chromium 集成到 Node.js：用 libuv 实现 message pump（nw）
   - Node.js 集成到 Chromium
-
-延伸资料：
-
-- https://electronjs.org/blog/electron-internals-node-integration
-- https://www.youtube.com/watch?v=OPhb5GoV8Xk
-- https://github.com/electron/electron/blob/master/shell/common/node_bindings.cc
 
 为什么要开发桌面端：
 
@@ -77,16 +82,3 @@ Electron
 - WPF
 - Chromium Embedded Framework（CEF）
 - PWA
-
-|            | Electron                               | Native                | QT                      | NW                                 |
-| :--------- | :------------------------------------- | :-------------------- | :---------------------- | :--------------------------------- |
-| 性能       | 1                                      | 3                     | 2                       | 1                                  |
-| 安装包大小 | 1                                      | 3                     | 1                       | 1                                  |
-| 原生体验   | 1                                      | 3                     | 2                       | 1                                  |
-| 跨平台     | 3                                      | x                     | 3                       | 3                                  |
-| 开发效率   | 3                                      | 1                     | 2                       | 3                                  |
-| 人才储备   | 3                                      | 2                     | 2                       | 3                                  |
-| 社区       | 3                                      | 2                     | 1                       | 2                                  |
-| 适用场景   | 跨平台应用<br/>快速交付<br/>前端技术栈 | 专业应用<br/>性能最佳 | 跨平台应用<br/>性能最佳 | 跨平台<br/>快速交付<br/>前端技术栈 |
-
-NVM 安装

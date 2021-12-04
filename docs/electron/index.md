@@ -30,26 +30,47 @@ export default () => <img alt="Electron" src={img} width="64%" height="64%" />;
 - Node.js：文件读写、本地命令调用、扩展第三方 C++ 库
 - Native API：系统通知、快捷键、CPU、硬件信息获取、离线在线检测
 
-<br />
+## 技术架构
 
-## 架构原理
+下图是 Chromium 的架构图。主进程负责管理窗口、标签页、右键菜单等等，这一部分跟操作系统强相关。渲染进程负责网页的渲染，这一部分跟操作系统无关。
 
-### Chromium 和 Node.js 整合
+```jsx | inline
+import React from 'react';
+import img from '../assets/electron/chromium-infra.png';
+
+export default () => <img alt="chromium-infra" src={img} width="64%" height="64%" />;
+```
+
+下图是 Electron 的架构图，可以看到他的核心工作就是把 Node.js 整合起来。
+
+```jsx | inline
+import React from 'react';
+import img from '../assets/electron/chromium-and-nodejs-infra.png';
+
+export default () => <img alt="chromium-and-nodejs-infra" src={img} width="64%" height="64%" />;
+```
 
 > 如何将 `Chromium` 和 `Node.js` 整合
 
-Node.js 事件循环基于 [libuv](https://github.com/libuv/libuv)，但 Chromium 基于 [message_pump](https://chromium.googlesource.com/chromium/chromium/+/refs/heads/main/base/message_pump.h)。
+技术难点：Node.js 事件循环基于 [libuv](https://github.com/libuv/libuv)，但 Chromium 基于 [message_pump](https://chromium.googlesource.com/chromium/chromium/+/refs/heads/main/base/message_pump.h)，而一个线程在同一时间只能运行一个事件循环。。
 
 解决这个问题的主要思路有两种：
 
 1. 将 Chromium 集成到 Node.js：用 `libuv` 实现 `message_pump`
 2. 将 Node.js 集成到 Chromium
 
-第一种方案，NW.js 就是这么做的。Electron 前期也是这样尝试的，结果发现在渲染进程里实现比较容易，但是在主进程里却很麻烦，因为各个系统的 GUI 实现都不同，Mac 是 `NSRunLoop`，Linux 是 `glib`，不仅工程量十分浩大，而且一些边界情况处理起来也十分棘手。
+第一种方案，NW.js 就是这么做的。Electron 前期也是用 `libuv` 来实现 `message bump`，结果发现在渲染进程中 `libuv` 实现 `message bump` 比较容易，但是在主进程里却很麻烦，因为各个系统的 GUI 实现都不同，Mac 是 `NSRunLoop`，Linux 是 `glib`，不仅工程量十分浩大，而且一些边界情况处理起来也十分棘手。
 
 后来作者另辟蹊径，再次进行尝试，用一个小间隔的定时器轮询 GUI 事件，发现 GUI 响应的非常慢，CPU 也爆表。
 
 直到后来 `libuv` 引入了 `backend_fd` 的概念，相当于 `libuv` 轮询事件的文件描述符，这样就可以通过轮询 `backend_fd` 来得到 `libuv` 的一个新事件了。也就是第二种思路，将 Node.js 集成到 Chromium。
+
+```jsx | inline
+import React from 'react';
+import img from '../assets/electron/backend-fd.png';
+
+export default () => <img alt="backend-fd" src={img} width="64%" height="64%" />;
+```
 
 将 Node.js 集成到 Chromium 中的原理：
 
@@ -143,10 +164,12 @@ win.loadUrl('https://www.mrsingsing.com/');
 
 除了以上这些方法，也可以使用 `localStorage`、`sessionStorage` 等。
 
----
-
-**参考资料：**
+## 参考资料
 
 - [Electron Internals: Message Loop Integration](https://www.electronjs.org/blog/electron-internals-node-integration)
+- [（译）Electron 内部：整合 Message Loop](https://zhuanlan.zhihu.com/p/34544004)
 - [The Chromium Projects: Multi-process Architecture](http://dev.chromium.org/developers/design-documents/multi-process-architecture)
 - [蘑菇街前端团队：Electron 从零到一](https://juejin.im/post/6844903974894567432)
+- [探索 NW.js 和 Electron 的内部（一）](https://zhuanlan.zhihu.com/p/34276309)
+- [探索 NW.js 和 Electron 的内部（二）](https://zhuanlan.zhihu.com/p/34336363)
+- [探索 NW.js 和 Electron 的内部（三）](https://zhuanlan.zhihu.com/p/34404999)
